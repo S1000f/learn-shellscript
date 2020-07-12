@@ -1,0 +1,26 @@
+# delete info from phonebook
+
+if [ "$#" -ne 1 ] ; then
+	echo "Inccorect number of arguments"
+	echo "Usage: rem [name]"
+	exit 1
+fi
+
+name=$1
+
+# find num of elements equal to argument
+
+matches=$(grep "$name" phonebook | wc -l)
+
+# more than 2 elements found then echo error message
+# only one match can go
+
+if [ "$matches" -gt 1 ] ; then
+	echo "More than one match; please qulify further"
+elif [ "$matches" -eq 1 ] ; then
+	grep -v "$name" phonebook > /tmp/phonebook
+	mv /tmp/phonebook phonebook
+else
+	echo "There is no $name in the phonebook"
+fi
+

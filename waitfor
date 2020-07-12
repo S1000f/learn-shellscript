@@ -1,0 +1,31 @@
+#
+# waiting until a target person log in
+#
+
+if [ "$1" = -m ] ; then
+	mailopt=TRUE
+	shift
+else
+	mailopt=FALSE
+fi
+
+if [ "$#" -eq 0 -o "$#" -gt 1 ] ; then
+	echo "Usage: waitfor [-m] [user]"
+	echo "	-m means to be informed by email"
+	exit 1
+fi
+
+user="$1"
+
+until who | grep "^$user " > /dev/null
+do
+	sleep 60
+done
+
+if [ "$mailopt" = FALSE ] ; then
+	echo "$user has logged on"
+else
+	runner=$(who am i | cut -c1-8)
+	echo "$user has logged on" | mail $runner
+fi
+

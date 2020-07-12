@@ -1,0 +1,1 @@
+tbl sys.caps | nroff -mm -Tlp | lp

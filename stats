@@ -1,0 +1,12 @@
+#
+# this is an annotation
+#
+
+echo The current date and time is:
+date
+echo
+echo The number of users on the system is:
+who | wc -l
+echo
+echo Your current working directory is:
+pwd

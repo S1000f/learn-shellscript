@@ -1,0 +1,5 @@
+#
+# find someone in phonebook
+#
+
+grep "$1" phonebook
