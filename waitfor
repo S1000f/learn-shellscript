@@ -2,30 +2,58 @@
 # waiting until a target person log in
 #
 
-if [ "$1" = -m ] ; then
-	mailopt=TRUE
-	shift
-else
-	mailopt=FALSE
+# init
+
+mailopt=FALSE
+interval=60
+
+#
+# command options
+#
+
+while getopts mt: option
+do
+  case "$option"
+  in
+    m) mailopt=TRUE;;
+    t) interval=$OPTARG;;
+    \?) echo "Usage: waitfor [-m] [-t number] user"
+        echo "	-m means to be informed by email"
+        echo "	-t means check every number seconds"
+        exit 1;;
+  esac
+done
+
+#
+# check if name parameter input or not
+#
+
+if [ "$OPTIND" -gt "$#" ] ; then
+  echo "Missing user name!"
+  exit 2
 fi
 
-if [ "$#" -eq 0 -o "$#" -gt 1 ] ; then
-	echo "Usage: waitfor [-m] [user]"
-	echo "	-m means to be informed by email"
-	exit 1
-fi
+shiftcount=$((OPTIND - 1))
+shift $shiftcount
+user=$1
 
-user="$1"
+#
+# check if the user log in or not
+#
 
 until who | grep "^$user " > /dev/null
 do
-	sleep 60
+  sleep $interval
 done
 
+#
+# on this section, the user has logged in
+#
+
 if [ "$mailopt" = FALSE ] ; then
-	echo "$user has logged on"
+  echo "$user has logged on"
 else
-	runner=$(who am i | cut -c1-8)
-	echo "$user has logged on" | mail $runner
+  runner=$(who am i | cut -c1-8)
+  echo "$user has logged on" | mail $runner
 fi
 
