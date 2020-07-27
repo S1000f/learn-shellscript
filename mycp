@@ -1,0 +1,32 @@
+#
+# copy file
+#
+
+if [ "$#" -ne 2 ] ; then
+	echo "Usage: mycp from to"
+	exit 1
+fi
+
+from="$1"
+to="$2"
+
+#
+# check if the destination file already exists or not
+#
+
+if [ -e "$to" ] ; then
+	echo "$to already exists; overwrite (yes/no)?"
+	read answer
+
+	if [ "$answer" != yes ] ; then
+		echo "copy not performed"
+		exit 0
+	fi
+fi
+
+#
+# if there is no conflict or 'yes' input
+#
+
+cp $from $to
+
