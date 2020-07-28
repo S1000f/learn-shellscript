@@ -1,32 +1,77 @@
 #
-# copy file
+# copy files -- final version
 #
 
-if [ "$#" -ne 2 ] ; then
-	echo "Usage: mycp from to"
+numargs=$#
+filelist=
+copylist=
+
+#
+# add params to filelist but last one
+#
+
+while [ "$#" -gt 1 ] ; do
+	filelist="$filelist $1"
+	shift
+done
+
+to="$1"
+
+#
+# if params are less than 2 or
+# params are more than 2 and the last param is not a directory
+# print error message
+#
+
+if [ "$numargs" -lt 2 -o "$numargs" -gt 2 -a ! -d "$to" ] ; then
+	echo "Usage: mycp file1 file2"
+	echo "       mycp file(s) dir"
 	exit 1
 fi
 
-from="$1"
-to="$2"
-
 #
-# check if the destination file already exists or not
+# deploy all files from filelist
 #
 
-if [ -e "$to" ] ; then
-	echo "$to already exists; overwrite (yes/no)?"
-	read answer
-
-	if [ "$answer" != yes ] ; then
-		echo "copy not performed"
-		exit 0
+for from in $filelist ; do
+	#
+	# check if it is a dir or not
+	#
+	if [ -d "$to" ] ; then
+		tofile="$to/$(basename $from)"
+	else
+		tofile="$to"
 	fi
+	
+	#
+	# do overwrite when user input yes or there is no conflict
+	#
+	if [ -e "$tofile" ] ; then
+		echo "$tofile already exists; overwrite (yes/no)?"
+		read answer
+
+		if [ "$answer" = yes -o "$answer" = y ] ; then
+			copylist="$copylist $from"
+		fi
+	else
+		copylist="$copylist $from"
+	fi
+done
+
+#
+# do copy
+#
+
+if [ -n "$copylist" ] ; then
+	cp $copylist $to
 fi
 
-#
-# if there is no conflict or 'yes' input
-#
 
-cp $from $to
+
+
+
+
+
+
+
 
