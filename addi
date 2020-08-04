@@ -1,0 +1,9 @@
+#
+# add two numbers and then put it stdin
+#
+
+while read n1 n2
+do
+	echo $(( $n1 + $n2 ))
+done
+

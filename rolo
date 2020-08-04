@@ -1,0 +1,59 @@
+#
+# rolo - program to search, add and remove infos on the phonebook
+#
+
+#
+# if there are argumenmts, do search
+#
+
+if [ "$#" -ne 0 ] ; then
+	./lu "$@"
+	exit
+fi
+
+validChoice=""	## to set null
+
+#
+# loop until user inputs correct choice
+#
+
+until [ -n "$validChoice" ]
+do
+	#
+	# show menu
+	#
+	
+	echo '
+		Would you like to:
+			1. Look someone up
+			2. Add someone to the phone book
+			3. Remove someone from the phone book
+	
+		please, select one of the above(1-3): '
+	
+	#
+	# read user's choice and process
+	#
+	
+	read choice
+	echo ""
+	case "$choice"
+	in
+		1) echo "Enter name to look up: "
+	   		read name
+			./lu "$name"
+			validChoice=TRUE;;
+		2) echo "Enter name to be added: "
+	   		read name
+	   		echo "Enter phone number: "
+	   		read number
+	   		./add "$name" "$number"
+			validChoice=TRUE;;
+		3) echo "Enter name to be removed: "
+	   		read name
+	   		./rem "$name"
+			validChoice=TRUE;;
+		*) echo "Wrong choice";;
+	esac
+done
+
