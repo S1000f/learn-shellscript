@@ -2,12 +2,20 @@
 # rolo - program to search, add and remove infos on the phonebook
 #
 
+PHONEBOOK=$HOME/phonebook
+export PHONEBOOK
+
+if [ ! -f "$PHONEBOOK" ] ; then
+	echo "No phonebook file in $HOME !"
+	exit 1
+fi
+
 #
 # if there are argumenmts, do search
 #
 
 if [ "$#" -ne 0 ] ; then
-	./lu "$@"
+	lu "$@"
 	exit
 fi
 
@@ -41,17 +49,17 @@ do
 	in
 		1) echo "Enter name to look up: "
 	   		read name
-			./lu "$name"
+			lu "$name"
 			validChoice=TRUE;;
 		2) echo "Enter name to be added: "
 	   		read name
 	   		echo "Enter phone number: "
 	   		read number
-	   		./add "$name" "$number"
+	   		add "$name" "$number"
 			validChoice=TRUE;;
 		3) echo "Enter name to be removed: "
 	   		read name
-	   		./rem "$name"
+	   		rem "$name"
 			validChoice=TRUE;;
 		*) echo "Wrong choice";;
 	esac

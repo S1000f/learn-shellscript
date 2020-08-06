@@ -2,4 +2,14 @@
 # find someone in phonebook
 #
 
-grep "$1" phonebook
+if [ "$#" -ne 1 ] ; then
+	echo "Usage: lu name"
+	exit 1
+fi
+
+grep "$1" $PHONEBOOK
+
+if [ $? -ne 0 ] ; then
+	echo "I couldn't find"
+fi
+

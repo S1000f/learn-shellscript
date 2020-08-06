@@ -37,6 +37,7 @@ shiftcount=$((OPTIND - 1))
 shift $shiftcount
 user=$1
 
+(
 #
 # check if the user log in or not
 #
@@ -56,4 +57,5 @@ else
   runner=$(who am i | cut -c1-8)
   echo "$user has logged on" | mail $runner
 fi
+) &
 

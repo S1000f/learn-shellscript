@@ -1,0 +1,7 @@
+x=50
+y=5
+z=1
+export z
+export x
+./vartest5
+

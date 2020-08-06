@@ -1,2 +1,12 @@
-echo "$1	$2" >> phonebook
-sort -o phonebook phonebook
+#
+# to add someone to the phonebook
+#
+
+if [ "$#" -ne 2 ] ; then
+	echo "Usage: add name number"
+	exit 1
+fi
+
+echo "$1	$2" >> $PHONEBOOK
+sort -o $PHONEBOOK $PHONEBOOK
+

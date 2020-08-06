@@ -12,7 +12,7 @@ name=$1
 # find num of elements equal to argument
 #
 
-matches=$(grep "$name" phonebook | wc -l)
+matches=$(grep "$name" $PHONEBOOK | wc -l)
 
 #
 # more than 2 elements found then echo error message
@@ -22,8 +22,8 @@ matches=$(grep "$name" phonebook | wc -l)
 if [ "$matches" -gt 1 ] ; then
 	echo "More than one match; please qulify further"
 elif [ "$matches" -eq 1 ] ; then
-	grep -v "$name" phonebook > /tmp/phonebook$$
-	mv /tmp/phonebook$$ phonebook
+	grep -v "$name" $PHONEBOOK > /tmp/phonebook$$
+	mv /tmp/phonebook$$ $PHONEBOOK 
 else
 	echo "There is no $name in the phonebook"
 fi
