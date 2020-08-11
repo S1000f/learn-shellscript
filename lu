@@ -3,7 +3,7 @@
 #
 
 if [ "$#" -ne 1 ] ; then
-	echo "Usage: lu name"
+	echo "Usage: $0 name"
 	exit 1
 fi
 

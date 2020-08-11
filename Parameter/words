@@ -1,0 +1,12 @@
+#
+# count number of words from stdin
+#
+
+count=0
+while read line ; do
+	set -- $line
+	count=$(( count + $# ))
+done
+
+echo $count
+

@@ -1,0 +1,17 @@
+#
+# get files from arguments or stdin
+# then, print line numbers
+#
+
+# IFS
+
+IFS='
+'
+lineno=1
+
+cat $* |
+while read -r line ; do
+	printf "%5d:%s\n" $lineno "$line"
+	lineno=$(( lineno + 1 ))
+done
+
