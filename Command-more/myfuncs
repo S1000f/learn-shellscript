@@ -1,0 +1,15 @@
+#
+# mycd old new : in the present direcroty, replace old to new
+#
+
+mycd () {
+	if [ $# -le 1 ] ; then
+		cd $1
+	elif [ $# -eq 2 ] ; then
+		cd $(echo $PWD | sed "s|$1|$2|")
+	else
+		echo mycd: bad argument count
+		exit 1
+	fi
+}
+

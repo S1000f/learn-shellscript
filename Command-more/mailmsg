@@ -1,0 +1,9 @@
+mail $* <<END-OF-DATA
+
+Attention:
+
+Our monthly computer users group meeting
+will take place on Fri, March 4, 2020 at 8pm
+in room 1A494 Please try to attend.
+
+END-OF-DATA
