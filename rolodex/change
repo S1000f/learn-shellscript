@@ -1,0 +1,54 @@
+#
+# change a field on the phonebook
+#
+
+name=$1
+
+grep -i "$name" $PHONEBOOK > /tmp/matches$$
+if [ ! -s /tmp/matches$$ ] ; then
+	echo "I can't find $name in the phonebook"
+	exit 1
+fi
+
+#
+# print it and ask
+#
+
+while read line
+do
+	display "$line"
+	echo "Change this entry (y/n)? "
+	read answer < /dev/tty
+
+	if [ "$answer" = y ] ; then
+		break
+	fi
+done < /tmp/matches$$
+
+rm /tmp/matches$$
+
+if [ "$answer" != y ] ; then
+	exit
+fi
+
+#
+# editing
+#
+
+echo "$line" | tr '^' '\012' > /tmp/ed$$
+
+echo "Enter change with ${EDITOR:=/bin/vi}"
+trap "" 2
+$EDITOR /tmp/ed$$
+
+#
+# delete old fields and add new one
+#
+
+grep -i -v "^$line$" $PHONEBOOK > /tmp/phonebook$$
+{ tr '\012' '^' < /tmp/ed$$; echo; } >> /tmp/phonebook$$
+
+sort /tmp/phonebook$$ -o $PHONEBOOK
+rm /tmp/ed$$ /tmp/phonebook$$
+
+

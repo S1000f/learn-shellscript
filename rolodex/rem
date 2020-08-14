@@ -1,0 +1,44 @@
+#
+# to remove someone from the phonebook
+#
+
+name=$1
+
+#
+# get a field matched and save it on a temporary file
+#
+
+grep -i "$name" $PHONEBOOK > /tmp/matches$$
+if [ ! -s /tmp/matches$$ ] ; then
+	echo " I can't find $name in the phonebook"
+	exit 1
+fi
+
+#
+# print a field and ask
+#
+
+while read line
+do
+	display "$line"
+	echo "Remove this entry (y/n)? "
+	read answer < /dev/tty
+
+	if [ "$answer" = y ] ; then
+		break
+	fi
+done < /tmp/matches$$
+rm /tmp/matches$$
+
+if [ "$answer" = y ] ; then
+	if grep -i -v "^$line$" $PHONEBOOK > /tmp/phonebook$$
+	then
+		mv /tmp/phonebook$$ $PHONEBOOK
+		echo "Selected entry has been removed"
+	elif [ ! -s $PHONEBOOK ] ; then
+		echo "Note: You now have an empty phonebook"
+	else
+		echo "Entry not removed"
+	fi
+fi
+

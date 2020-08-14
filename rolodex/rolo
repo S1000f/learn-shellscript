@@ -1,0 +1,96 @@
+#
+# rolo - to search, add, delete, change infomation on the phonebook
+#	rolodex
+#
+
+#
+# set phonebook file to PHONEBOOK then export it
+# if it is already saved, leave it
+#
+
+: ${PHONEBOOK:=$HOME/phonebook}
+export PHONEBOOK
+if [ ! -e "$PHONEBOOK" ] ; then
+	echo "$PHONEBOOK does not exist"
+	echo "would you like to create one? (y/n)? "
+	read answer
+
+	if [ "$answer" != y ] ; then
+		exit 1
+	fi
+
+	> $PHONEBOOK || exit 1
+fi
+
+#
+# do search, if there is arguments
+#
+
+if [ "$#" -ne 0 ] ; then
+	lu "$@"
+	exit
+fi
+
+#
+# set trap for the interupt in order to process loop
+#
+
+trap "continue" SIGINT
+
+#
+# loop until user choose 'exit menu'
+#
+
+while true
+do
+	#
+	# show the menu
+	#
+
+	echo '
+	Would you like to:
+	
+		1. Look someone up
+		2. Add someone to the phonebook
+		3. Remove someone from the phonebook
+		4. Change an entry in the phonebook
+		5. List all names and numbers in the phonebook
+		6. Exit
+
+	Please, select one of the above (1-6): '
+
+	#
+	# user choose one
+	#
+
+	read choice
+	case "$choice"
+	in
+		1) echo "Enter name to look up: "
+		   read name
+		   if [ -z "$name" ] ; then
+			echo "Lookup ignored"
+		   else
+			lu "$name"
+		   fi;;
+		2) add;;
+		3) echo "Enter name to remove: "
+		   read name
+		   if [ -z "$name" ] ; then
+			echo "removal ignored"
+		   else
+			rem "$name"
+		   fi;;
+		4) echo "Enter name to change: "
+		   read name
+		   if [ -z "$name" ] ; then
+			echo "Change canceled"
+		   else
+			change "$name"
+		   fi;;
+		5) listall;;
+		6) exit 0;;
+		*) echo "Wrong choice";;
+	esac
+done
+

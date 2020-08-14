@@ -1,0 +1,19 @@
+#
+
+echo
+echo "-------------------------------------"
+
+entry=$1
+OIFS=$IFS
+IFS="^"
+set $entry
+
+for line in "$1" "$2" "$3" "$4" "$5" "$6"
+do
+	printf "| %-34.34s |\n" $line
+done
+echo "|       O                   O        |"
+echo "-------------------------------------"
+echo
+
+IFS=$OIFS
