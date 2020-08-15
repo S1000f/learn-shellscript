@@ -1,0 +1,31 @@
+CDHIST[0]=$PWD
+alias cd=cdh
+
+cdh ()
+{
+	typeset -i cdlen i
+	if [ $# -eq 0 ] ; then
+		set -- $HOME
+	fi
+
+	cdlen=${#CDHIST[*]}
+
+	case "$@" in
+	-l)
+		i=0
+		while ((i < cdlen))
+		do
+			printf "%3d %s\n" $i ${CDHIST[i]}
+			((i = i + 1))
+		done
+		return;;
+	-[0-9]|-[0-9][0-9])
+		i=${1#-}
+		'cd' ${CDHIST[i]} ;;
+	*)
+		'cd' $@ ;;
+	esac
+
+	CDHIST[cdlen]=$PWD
+}
+	
