@@ -1,0 +1,28 @@
+#!/bin/bash
+
+#
+# if it gets arguments, change the directory
+#
+
+num=$1
+hjkl=
+typeset -i i=${#num}
+
+while ((i > 0
+
+
+
+
+echo $PWD > /tmp/ppwd$$
+
+OIFS=$IFS
+IFS="/"
+set $PWD
+
+for e in "$1" "$2" "$3" "$4"
+do
+	echo "$e"
+done
+
+IFS=$OIFS
+

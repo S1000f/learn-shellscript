@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo $PWD > /tmp/ppwd$$
+
+OIFS=$IFS
+IFS="/"
+set $PWD
+
+while read line
+do
+	echo "$line"
+done < /tmp/ppwd$$
+
+IFS=$OIFS
+
